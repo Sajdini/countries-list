@@ -12,11 +12,12 @@ const Header = () => {
 export default Header;
 
 const Head = styled.div`
-  margin-bottom: 4rem;
+  margin-bottom: 2rem;
+  text-align: center;
 `;
 
 const Title = styled.h1`
-  font-size: 4.8rem;
+  font-size: 4rem;
   padding: 0;
   font-weight: 900;
   color: #777;

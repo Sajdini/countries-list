@@ -1,16 +1,54 @@
-import React from "react";
+import React, { useState, useCallback } from "react";
 import styled from "styled-components";
-
+import { useDispatch, useSelector } from "react-redux";
+import { sliceActions } from "../store/country-slice";
 const FilterSection = () => {
+  const dispatch = useDispatch();
+
+  // USING  "data" TO LOOP THROUGH AND FIND LITHUANIA
+  const data = useSelector((state) => state.country.data);
+  const lithuania = data.find((country) => country.name === "Lithuania");
+
+  // USING "sortedData" in order to toggle text from "A/Z" to "Z/A" to Sort button
+  const sortedData = useSelector((state) => state.country.sortedData);
+
+  const filterByRegion = useCallback(
+    (e) => {
+      e.preventDefault();
+      dispatch(sliceActions.filterDataByRegion({ region: "Oceania" }));
+    },
+    [dispatch]
+  );
+
+  const filterByCountrySize = (e) => {
+    e.preventDefault();
+    dispatch(sliceActions.filterDataBySize({ area: lithuania.area }));
+  };
+
+  const clearFilters = (e) => {
+    e.preventDefault();
+    dispatch(sliceActions.removeFilters());
+  };
+
+  const toggleSort = (e) => {
+    e.preventDefault(e);
+    dispatch(sliceActions.sortData());
+  };
+
+  let sortBtnText = !sortedData ? "A/Z" : "Z/A";
+
   return (
     <>
       <BtnContainer>
         <Filter>
-          <button>Filter by region</button>
-          <BtnOutline>Filter by size</BtnOutline>
+          <FilterBtn onClick={filterByRegion}>Filter by region</FilterBtn>
+          <FilterBtnOutline onClick={filterByCountrySize}>
+            Filter by size
+          </FilterBtnOutline>
+          <ClearButton onClick={clearFilters}>Clear Filters</ClearButton>
         </Filter>
         <Sort>
-          <button>A/Z</button>
+          <button onClick={toggleSort}>{sortBtnText}</button>
         </Sort>
       </BtnContainer>
     </>
@@ -23,18 +61,22 @@ const BtnContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  button {
+    font-size: 1.4rem;
+  }
 `;
 
 const Filter = styled.div`
   button {
     color: #666;
-    background-color: #69db7c;
+
     border-style: none;
     margin-right: 1rem;
     padding: 1rem 2rem;
     border-radius: 9px;
     font-weight: 600;
     transition: all 0.3s;
+    margin-top: 1rem;
     &:hover {
       background-color: transparent;
       box-shadow: inset 0 0 0 2px #555;
@@ -42,12 +84,23 @@ const Filter = styled.div`
   }
 `;
 
-const BtnOutline = styled.button`
+const FilterBtn = styled.button`
+  background-color: #69db7c;
+
+  &:active {
+    transform: scale(0.9);
+  }
+`;
+
+const FilterBtnOutline = styled.button`
   background-color: #fff !important;
-  margin-top: 1rem;
 
   &:hover {
     background-color: transparent !important;
+  }
+
+  &:active {
+    transform: scale(0.9);
   }
 `;
 
@@ -84,5 +137,18 @@ const Sort = styled.div`
       border: none;
       background-color: #999;
     }
+  }
+
+  &:active {
+    &::before {
+      transform: scale(0.8);
+    }
+  }
+`;
+const ClearButton = styled.button`
+  background-color: #ddd !important;
+
+  &:active {
+    transform: scale(0.9);
   }
 `;

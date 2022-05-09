@@ -1,40 +1,44 @@
 import React from "react";
 import styled from "styled-components";
+import { useSelector } from "react-redux";
+import Pagination from "./Pagination";
+import Loading from "./Loading";
 
-const List = () => {
-  return (
-    <ListContainer>
-      <UnorderedList>
-        <li>
-          <h1>Afghanistan</h1>
-          <NestedList>
-            <h2>Asia</h2>
-            <p>652230.0</p>
-            <p>false</p>
-          </NestedList>
-        </li>
+const List = React.memo(() => {
+  const shownData = useSelector((state) => state.country.shownData);
+  const isloaded = useSelector((state) => state.country.isloaded);
+  const page = useSelector((state) => state.country.pageNumber);
+  //  console.log(shownData.filter((country) => country.region === "Oceania"));
+  // THIS IS USED TO SLICE THE ARRAY FROM API RESPONSE INTO 10 ITEMS ARRAY(PAGE)//
+  const listedData = shownData.slice((page - 1) * 10, page * 10);
+  console.log("List is being rendered");
 
-        <li>
-          <h1>Afghanistan</h1>
-          <NestedList>
-            <h2>Asia</h2>
-            <p>652230.0</p>
-            <p>false</p>
-          </NestedList>
-        </li>
+  const countries = listedData.map((country, i) => {
+    const { name, region, area } = country;
+    return (
+      <li key={i}>
+        <h1>{name}</h1>
+        <NestedList>
+          <h2>{region}</h2>
+          <p>Area: {area}</p>
+        </NestedList>
+      </li>
+    );
+  });
 
-        <li>
-          <h1>Afghanistan</h1>
-          <NestedList>
-            <h2>Asia</h2>
-            <p>652230.0</p>
-            <p>false</p>
-          </NestedList>
-        </li>
-      </UnorderedList>
-    </ListContainer>
-  );
-};
+  if (!isloaded) {
+    return <Loading />;
+  } else {
+    return (
+      <>
+        <ListContainer>
+          <UnorderedList>{countries}</UnorderedList>
+        </ListContainer>
+        <Pagination />
+      </>
+    );
+  }
+});
 
 export default List;
 
@@ -58,7 +62,7 @@ const UnorderedList = styled.ul`
     h1 {
       font-family: "Roboto";
 
-      font-size: 2.8rem;
+      font-size: 2.4rem;
     }
     &:hover {
       transform: scale(1.02);
@@ -69,7 +73,7 @@ const UnorderedList = styled.ul`
 const NestedList = styled.ul`
   padding-left: 2rem;
   h2 {
-    font-size: 2.4rem;
+    font-size: 2rem;
   }
   p {
     font-size: 1.5rem;
