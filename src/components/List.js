@@ -1,17 +1,18 @@
 import React from "react";
-import styled from "styled-components";
-import { useSelector } from "react-redux";
+
 import Pagination from "./Pagination";
 import Loading from "./Loading";
+import { useSelector } from "react-redux";
+
+import styled from "styled-components";
 
 const List = React.memo(() => {
   const shownData = useSelector((state) => state.country.shownData);
   const isloaded = useSelector((state) => state.country.isloaded);
   const page = useSelector((state) => state.country.pageNumber);
-  //  console.log(shownData.filter((country) => country.region === "Oceania"));
+
   // THIS IS USED TO SLICE THE ARRAY FROM API RESPONSE INTO 10 ITEMS ARRAY(PAGE)//
   const listedData = shownData.slice((page - 1) * 10, page * 10);
-  console.log("List is being rendered");
 
   const countries = listedData.map((country, i) => {
     const { name, region, area } = country;
@@ -53,12 +54,22 @@ const UnorderedList = styled.ul`
   list-style: none;
   padding-left: 0;
   color: #666;
+
+  //  INITIAL RENDER FADE IN ANIMATION OF LIST ITEM
+  -webkit-animation-name: fadeIn;
+  animation-name: fadeIn;
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+
   li {
     margin-bottom: 1rem;
     background-color: #8ce99a;
     padding: 1rem;
     border-radius: 8px;
     transition: all 0.3s;
+
     h1 {
       font-family: "Roboto";
 

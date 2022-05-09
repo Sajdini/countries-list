@@ -15,6 +15,8 @@ const countrySlice = createSlice({
       state.shownData = state.data;
       state.isloaded = true;
     },
+
+    //INCREMENT AND DECREMENT ARE USED TO LIST THROUGH THE PAGE, WHILE jumpToPage IS USED TO THE INPUT IN THE Pagination component 
     increment(state) {
       state.pageNumber = state.pageNumber + 1;
     },
@@ -32,6 +34,7 @@ const countrySlice = createSlice({
       );
       state.pageNumber = 1;
     },
+
     filterDataBySize(state, action) {
       state.shownData = state.shownData.filter(
         (country) => country.area < action.payload.area
@@ -39,7 +42,7 @@ const countrySlice = createSlice({
       state.pageNumber = 1;
     },
 
-    sortData(state, action) {
+    sortData(state) {
       const sortData = (x, y) => {
         if (x.name > y.name) {
           return -1;
@@ -49,6 +52,8 @@ const countrySlice = createSlice({
         }
         return 0;
       };
+
+      // sortedData IS USED SO I COULD TOGGLE SORT THE DATA BACK, INSTEAD OF JUST SORTING IT ONLY ONCE
       state.sortedData = !state.sortedData;
       if (state.sortedData === true) {
         state.shownData = state.shownData.sort(sortData);
@@ -58,7 +63,7 @@ const countrySlice = createSlice({
       }
     },
 
-    removeFilters(state, action) {
+    removeFilters(state) {
       state.shownData = state.data;
       state.pageNumber = 1;
     },

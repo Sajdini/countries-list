@@ -1,15 +1,17 @@
 import React, { useCallback } from "react";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { sliceActions } from "../store/country-slice";
+
 import styled from "styled-components";
 import { ReactComponent as ArrowRight } from "../arrow-right-solid.svg";
 import { ReactComponent as ArrowLeft } from "../angles-left-solid.svg";
-import { sliceActions } from "../store/country-slice";
 
 const Pagination = React.memo(() => {
   const dispatch = useDispatch();
 
   const page = useSelector((state) => state.country.pageNumber);
+
+  // WITH Math.ceil  I MAKE SURE THAT IF MORE COUNTRIES ARE ADDED IN THE FUTURE, THEY WILL APPEAR IN ANOTHER PAGE THAT WILL BE CREATED
   const dataLength = Math.ceil(
     useSelector((state) => state.country.shownData).length / 10
   );

@@ -1,5 +1,7 @@
 import { sliceActions } from "./country-slice";
 
+// INSTEAD OF POLLUTING THE App.js OR ANY OTHER COMPONENT, I DECIDED TO TAKE THE FETCHING FUNCTION AND LOGIC TO A SEPARATE FILE (HERE)
+
 export const fetchCountryData = () => {
   return async (dispatch) => {
     const fetchData = async () => {

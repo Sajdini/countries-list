@@ -1,7 +1,9 @@
-import React, { useState, useCallback } from "react";
-import styled from "styled-components";
+import React, { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { sliceActions } from "../store/country-slice";
+
+import styled from "styled-components";
+
 const FilterSection = () => {
   const dispatch = useDispatch();
 
@@ -12,6 +14,7 @@ const FilterSection = () => {
   // USING "sortedData" in order to toggle text from "A/Z" to "Z/A" to Sort button
   const sortedData = useSelector((state) => state.country.sortedData);
 
+  // FILTERS AND RETURNS COUNTRIES IN OCEANIA
   const filterByRegion = useCallback(
     (e) => {
       e.preventDefault();
@@ -20,16 +23,19 @@ const FilterSection = () => {
     [dispatch]
   );
 
+  //FILTERS AND RETURNS COUNTRIES WITH AREA SMALLER THAN LITHUANIA
   const filterByCountrySize = (e) => {
     e.preventDefault();
     dispatch(sliceActions.filterDataBySize({ area: lithuania.area }));
   };
 
+  //CLEAR FILTERS
   const clearFilters = (e) => {
     e.preventDefault();
     dispatch(sliceActions.removeFilters());
   };
 
+  //TOGGLES THE LIST ALPHABETICALLY
   const toggleSort = (e) => {
     e.preventDefault(e);
     dispatch(sliceActions.sortData());
@@ -69,7 +75,6 @@ const BtnContainer = styled.div`
 const Filter = styled.div`
   button {
     color: #666;
-
     border-style: none;
     margin-right: 1rem;
     padding: 1rem 2rem;
@@ -86,7 +91,6 @@ const Filter = styled.div`
 
 const FilterBtn = styled.button`
   background-color: #69db7c;
-
   &:active {
     transform: scale(0.9);
   }
@@ -94,11 +98,9 @@ const FilterBtn = styled.button`
 
 const FilterBtnOutline = styled.button`
   background-color: #fff !important;
-
   &:hover {
     background-color: transparent !important;
   }
-
   &:active {
     transform: scale(0.9);
   }
@@ -123,7 +125,6 @@ const Sort = styled.div`
     border: solid 1px #999;
     position: absolute;
     border-radius: 50%;
-
     z-index: -1;
     transition: all 0.3s;
   }
@@ -145,6 +146,7 @@ const Sort = styled.div`
     }
   }
 `;
+
 const ClearButton = styled.button`
   background-color: #ddd !important;
 
