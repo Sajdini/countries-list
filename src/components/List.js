@@ -21,7 +21,9 @@ const List = React.memo(() => {
         <h1>{name}</h1>
         <NestedList>
           <h2>{region}</h2>
-          <p>Area: {area}</p>
+          <p>
+            Area: {area} km<sup>2</sup>
+          </p>
         </NestedList>
       </li>
     );
@@ -88,6 +90,5 @@ const NestedList = styled.ul`
   }
   p {
     font-size: 1.5rem;
-    text-transform: capitalize;
   }
 `;
